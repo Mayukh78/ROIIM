@@ -1,5 +1,6 @@
 package com.example.ROIIM;
 
+//this class is responsible for unmarshal from Request Payload
 public class RequestDetails {
     private String paymentHandleToken;
     private String merchantRefNum;

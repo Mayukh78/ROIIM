@@ -14,6 +14,7 @@
 
 <html>
     <head>
+        <title>ROIIM Assignment</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
@@ -24,27 +25,69 @@
 
  
     <body>
-        <div class="container-fluid">
-            <!-- <form action="http://localhost:8080/token"> -->
-                <label for="email">Email Id</label>
-                <input type="text" id="email" class="form-control" placeholder="Email Id" aria-label="Email Id" aria-describedby="basic-addon1">
-                
-                <!-- </form> -->
-                
-                <button class="btn btn-primary" > Pay $25 </button>
+        <div class="container">
+            <div class="jumbotron">
+                <h1 class="display-4">ROIIM Assignment</h1>
             </div>
-        </body>
+            <form>
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="Put your first name" value="Mayukh">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="Put your last name" value="Das">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email address</label>
+                  <input type="email" class="form-control" id="email" placeholder="Enter email" value="mayukhdas78@gmail.com">
+                  <small class="form-text text-muted">Email ID is always required</small>
+                </div>
+                <div class="form-group">
+                  <label for="amount">Amount</label>
+                  <input type="text" class="form-control" id="amount" placeholder="Put Amount Here" value="10">
+                  <small class="form-text text-muted">Amount is always required</small>
+
+                </div>
+                <div class="form-group">
+                    <label for="street">Street</label>
+                    <input type="text" class="form-control" id="street" placeholder="Put Street Here" value="ABC Road">
+                    <small class="form-text text-muted">If you're new user then Street is required</small>
+                </div>
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input type="text" class="form-control" id="city" placeholder="Put City Here" value="Kolkata">
+                  <small class="form-text text-muted">If you're new user then City is required</small>
+                </div>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <input type="text" class="form-control" id="country" placeholder="Put your pin" value="IN">
+                    <small class="form-text text-muted">If you're new user then country is required</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Pay</button>
+              </form>
+    </body>
         
         <script>
-            let refNum= "ROM"+Math.floor(Math.random()*10000);
+            
+        let refNum= "ROIIM"+Math.floor(Math.random()*10000);
+        $(document).ready(function(){
+            $("button").click(function(event){
+                event.preventDefault();
+			    customerToken();
+			});
+        });
+
+        function customerToken()
+        {
             var options={    
                 "currency": "USD",
-                "amount": 10000,
+                "amount": parseInt(document.getElementById("amount").value) * 100,
                 "locale": "en_US",
                 "customer": {
-                    "firstName": "John",
-                    "lastName": "Dee",
-                    "email": "johndee@paysafe.com",
+                    "firstName": document.getElementById("firstName").value,
+                    "lastName": document.getElementById("lastName").value,
+                    "email": document.getElementById("email").value,
                     "phone": "1234567890",
                     "dateOfBirth": {
                         "day": 1,
@@ -53,19 +96,15 @@
                     }
                 },
                 "billingAddress": {
-                    "nickName": "John Dee",
-                    "street": "20735 Stevens Creek Blvd",
-                    "street2": "Montessori",
-                    "city": "Cupertino",
+                    "street": document.getElementById("street").value,
+                    "city": document.getElementById("city").value,
                     "zip": "95014",
-                    "country": "US",
+                    "country": document.getElementById("country").value,
                     "state": "CA"
                 },
                 "environment": "TEST",
-                // "merchantRefNum": "1559900597607",
                 "merchantRefNum": refNum,
-                // "singleUseCustomerToken":"C0OAYmitRFJ5Oe2",
-                "canEditAmount": true,
+                "canEditAmount": false,
                 "merchantDescriptor": {   
                     "dynamicDescriptor": "XYZ",
                     "phone": "1234567890"
@@ -90,16 +129,6 @@
                     }
                 }
             }
-        
-        $(document).ready(function(){
-            $("button").click(function(event){
-			  	// event.preventDefault();
-			    customerToken();
-			});
-        });
-
-        function customerToken()
-        {
             var body={
                     "email": document.getElementById("email").value
                     };
@@ -117,13 +146,13 @@
                             console.log("From Customer Token");
                             console.log(token);
                             if(token)
-                                options["singleUseCustomerToken"]=token;
-                            checkout();
+                                options["singleUseCustomerToken"]=token["singleUseCustomerToken"];
+                            checkout(options);
                 }
             });
         }
 
-        function checkout() {
+        function checkout(options) {
             paysafe.checkout.setup("cHVibGljLTc3NTE6Qi1xYTItMC01ZjAzMWNiZS0wLTMwMmQwMjE1MDA4OTBlZjI2MjI5NjU2M2FjY2QxY2I0YWFiNzkwMzIzZDJmZDU3MGQzMDIxNDUxMGJjZGFjZGFhNGYwM2Y1OTQ3N2VlZjEzZjJhZjVhZDEzZTMwNDQ=", 
             options,
             function(instance, error, result) {
@@ -136,7 +165,7 @@
                         "paymentHandleToken":result.paymentHandleToken,
                         "customerOperation":result.customerOperation,
                         "merchantRefNum":refNum,
-                        "amount":10000,
+                        "amount":parseInt(document.getElementById("amount").value)*100,
                         "currencyCode":"USD",
                         "email":document.getElementById("email").value
                     }
@@ -145,12 +174,20 @@
                         url: 'http://localhost:8080/payment',
                         type: 'post',
                         data: JSON.stringify( data),
-                        // dataType: 'json',
                         contentType: 'application/json',
-                        success: function () {
-                            console.log("Succesfull");
-                            instance.showSuccessScreen("Payment completed Successfully");
-                            setTimeout(2000,location.reload);
+                        success: function (res) {
+                            if(res=="CREATED" || res=="OK" || res=="ACCEPTED")
+                            {
+                                instance.showSuccessScreen("Payment completed Successfully");
+                                setTimeout(function(){instance.close();},5000);
+                                setTimeout(function(){location.reload();},1000);
+                            }
+                            else
+                            {
+                                instance.showFailureScreen("Payment wasn't succesful, please try again");
+                                setTimeout(function(){instance.close();},5000);
+                                setTimeout(function(){location.reload();},1000);
+                            }
             },
             
         });

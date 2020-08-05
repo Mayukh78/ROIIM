@@ -1,5 +1,6 @@
 package com.example.ROIIM;
 
+//this class holds attribute that we will send to paysafe server for processing request
 public class Token {
     private String paymentHandleToken;
     private String merchantRefNum;

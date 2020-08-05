@@ -1,7 +1,5 @@
 package com.example.ROIIM;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class SingleUseCustomerTokenRequest {
     private String singleUseCustomerToken;
 

@@ -2,6 +2,7 @@ package com.example.ROIIM;
 
 import javax.persistence.*;
 
+//This class is stored in db.
 @Entity
 public class UserEntity {
     @Id
