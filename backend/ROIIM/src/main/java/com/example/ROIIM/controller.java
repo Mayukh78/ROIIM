@@ -58,7 +58,7 @@ public class controller {
 
     @PostMapping(path="/token", consumes = "application/json", produces = "application/json")
     @ResponseBody
-    public SingleUseCustomerTokenRequest customerIdCheck(@RequestBody RequestDetails requestEmail)
+    public SingleUseCustomerTokenRequest customerIdCheck(@RequestBody Email requestEmail)
     {
         String email= requestEmail.getEmail();
         if(userRepository.findByEmail(email) == null)
