@@ -133,7 +133,7 @@
                     "email": document.getElementById("email").value
                     };
                     $.ajax({
-                        url: 'http://localhost:8080/token',
+                        url: 'http://13.127.154.126:8080/token',
                         headers: { 
                             'Accept': 'application/json',
                             'Content-Type': 'application/json' 
@@ -171,7 +171,7 @@
                     }
                     // make AJAX call to Payments API
                     $.ajax({
-                        url: 'http://localhost:8080/payment',
+                        url: 'http://13.127.154.126:8080/payment',
                         type: 'post',
                         data: JSON.stringify( data),
                         contentType: 'application/json',
